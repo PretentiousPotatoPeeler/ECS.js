@@ -14,7 +14,7 @@ player = {
 s2 = new squere(20, 20, 10, 10);
 
 player2 = {
-	"name": "player",
+	"name": "player1",
 	"data": {
 		"squere": s2,
 		"displaySolid": new displaySolid(s2)
