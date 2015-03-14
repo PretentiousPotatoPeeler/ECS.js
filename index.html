@@ -1,0 +1,41 @@
+<script type="text/javascript" src="components.js"></script>
+<script type="text/javascript" src="unit.js"></script>
+<script type="text/javascript" src="input.js"></script>
+
+<body style="margin: 0px">
+	<canvas id="myCanvas" >
+	</canvas>
+</body>
+
+<script>
+var CANVAS_WIDTH = 500;
+var CANVAS_HEIGHT = 500 ;
+canvas = document.getElementById("myCanvas").getContext("2d");
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
+</script>
+
+<script type="text/javascript" src="player.json"></script>
+
+<script type="text/javascript">
+console.log(player);
+
+var FPS = 30;
+setInterval(function() {
+  update();
+  draw();
+}, 1000/FPS);
+
+function draw() {
+	canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+	player.data.displaySolid.draw();
+	player2.data.displaySolid.draw();
+}
+
+function update() {
+	player.logic.arrowMove.update();
+	player2.logic.arrowMove.update();
+}
+
+</script>

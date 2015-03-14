@@ -1,0 +1,25 @@
+s = new squere(10,10,10,10);
+
+player = {
+	"name": "player",
+	"data": {
+		"squere": s,
+		"displaySolid": new displaySolid(s)
+	},
+	"logic": {
+		"arrowMove": new arrowMove(s)
+	}
+}
+
+s2 = new squere(20, 20, 10, 10);
+
+player2 = {
+	"name": "player",
+	"data": {
+		"squere": s2,
+		"displaySolid": new displaySolid(s2)
+	},
+	"logic": {
+		"arrowMove": new arrowMove(s2)
+	}
+}
