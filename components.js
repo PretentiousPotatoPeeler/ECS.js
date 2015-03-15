@@ -11,28 +11,31 @@ var loc = {
 	}
 }
 
-function Squere(x, y, width, height){
+function Squere(p, x, y, width, height){
 	this.name = "squere";
+    this.parent = p;
 	this.x = x;
 	this.y = y;
 	this.width = width;
 	this.height = height;
 }
 
-function DisplaySolid(s){
+function DisplaySolid(p){
 	this.name = "displaySolid";
+    this.parent = p;
 	this.color = "#00A";
-	this.squere = s;
+	this.squere = this.parent.model["squere"];
 	this.draw = function() {
 		canvas.fillStyle = this.color;
 		canvas.fillRect(this.squere.x, this.squere.y, this.squere.width, this.squere.height);
 	}
 }
 
-function ArrowMove(s) {
+function ArrowMove(p) {
 	this.name = "arrowMove";
     this.category = "controller";
-	this.squere = s;
+    this.parent = p;
+	this.squere = this.parent.model["squere"];
 	this.update = function() {
 		if (Key.isDown(Key.UP)) this.squere.y--;
 		if (Key.isDown(Key.LEFT)) this.squere.x--;
