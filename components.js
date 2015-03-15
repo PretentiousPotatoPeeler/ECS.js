@@ -1,16 +1,3 @@
-
-
-var loc = {
-	name: "location",
-	x: 0,
-	y: 0,
-	init: function(x, y) {
-		this.x = x;
-		this.y = y;
-		return this;
-	}
-}
-
 function Squere(p, x, y, width, height){
 	this.name = "squere";
     this.parent = p;
