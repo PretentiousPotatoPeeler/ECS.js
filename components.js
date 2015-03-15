@@ -11,7 +11,7 @@ var loc = {
 	}
 }
 
-function squere(x, y, width, height){
+function Squere(x, y, width, height){
 	this.name = "squere";
 	this.x = x;
 	this.y = y;
@@ -19,7 +19,7 @@ function squere(x, y, width, height){
 	this.height = height;
 }
 
-function displaySolid(s){
+function DisplaySolid(s){
 	this.name = "displaySolid";
 	this.color = "#00A";
 	this.squere = s;
@@ -29,8 +29,9 @@ function displaySolid(s){
 	}
 }
 
-function arrowMove(s) {
-	this.name ="arrowMove";
+function ArrowMove(s) {
+	this.name = "arrowMove";
+    this.category = "controller";
 	this.squere = s;
 	this.update = function() {
 		if (Key.isDown(Key.UP)) this.squere.y--;

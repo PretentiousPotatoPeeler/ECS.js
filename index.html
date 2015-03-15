@@ -1,5 +1,5 @@
 <script type="text/javascript" src="components.js"></script>
-<script type="text/javascript" src="unit.js"></script>
+<script type="text/javascript" src="entity.js"></script>
 <script type="text/javascript" src="input.js"></script>
 
 <body style="margin: 0px">
@@ -8,34 +8,41 @@
 </body>
 
 <script>
-var CANVAS_WIDTH = 500;
-var CANVAS_HEIGHT = 500 ;
-canvas = document.getElementById("myCanvas").getContext("2d");
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
+    var CANVAS_WIDTH = 500;
+    var CANVAS_HEIGHT = 500 ;
+    canvas = document.getElementById("myCanvas").getContext("2d");
+    canvas.width = CANVAS_WIDTH;
+    canvas.height = CANVAS_HEIGHT;
 </script>
 
-<script type="text/javascript" src="player.json"></script>
-
 <script type="text/javascript">
-console.log(player);
 
-var FPS = 30;
-setInterval(function() {
-  update();
-  draw();
-}, 1000/FPS);
+    var player = new Unit("player");
+    player.addModel(new Squere(10, 10, 20, 20));
+    player.addController(new ArrowMove(player.getModel("squere")));
+    player.addView(new DisplaySolid(player.getModel("squere")));
 
-function draw() {
-	canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    var FPS = 30;
+    setInterval(function() {
+      update();
+      draw();
+    }, 1000/FPS);
 
-	player.data.displaySolid.draw();
-	player2.data.displaySolid.draw();
-}
+    function draw() {
+        canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        for(var com in player.view){
+            if (player.view[com].hasOwnProperty("draw")) {
+                player.view[com].draw();
+            }
+        }
+    }
 
-function update() {
-	player.logic.arrowMove.update();
-	player2.logic.arrowMove.update();
-}
+    function update() {
+        for(var com in player.controller){
+            if (player.controller[com].hasOwnProperty("update")) {
+                player.controller[com].update();
+            }
+        }
+    }
 
 </script>
