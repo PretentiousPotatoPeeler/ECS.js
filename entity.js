@@ -1,4 +1,4 @@
-var Unit = function(name) {
+var Entity = function(name) {
 	this.name = name;
 	this.model = {};
 	this.view = {};

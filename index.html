@@ -17,10 +17,10 @@
 
 <script type="text/javascript">
 
-    var player = new Unit("player");
-    player.addModel(new Squere(10, 10, 20, 20));
-    player.addController(new ArrowMove(player.getModel("squere")));
-    player.addView(new DisplaySolid(player.getModel("squere")));
+    var player = new Entity("player");
+    player.addModel(new Squere(player, 10, 10, 20, 20));
+    player.addController(new ArrowMove(player));
+    player.addView(new DisplaySolid(player));
 
     var FPS = 30;
     setInterval(function() {
