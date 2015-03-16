@@ -1,5 +1,6 @@
-var Entity = function (name) {
+var Entity = function (name, category) {
     this.name = name;
+    this.category = category;
     this.model = {};
     this.view = {};
     this.controller = {};
