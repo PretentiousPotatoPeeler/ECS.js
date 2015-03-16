@@ -52,11 +52,11 @@
     tree.addModel(new Square(tree, 1, 2, -1, -1, false, true));
     tree.addModel(new ImageModel(tree, img_tree, true));
 
-    for(var i = 0; i < CANVAS_WIDTH / 32; i++){
-        for(var j = 0; j < CANVAS_HEIGHT / 32; j++){
+    for (var i = 0; i < CANVAS_WIDTH / 32; i++) {
+        for (var j = 0; j < CANVAS_HEIGHT / 32; j++) {
             var grass = new Entity("grass", "background");
             grass.addModel(new Square(grass, i, j, -1, -1, false, true));
-            grass.addModel(new ImageModel(grass, img_grass, true));
+            grass.addModel(new ImageModel(grass, img_grass0, true));
             entities.push(grass);
         }
     }
