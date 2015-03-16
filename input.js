@@ -20,8 +20,14 @@ var Key = {
 };
 
 var Mouse = {
+
+    _clicked: {},
+    _used: false,
+
 	press: function(event) {
-		console.log(event);
+		this._clicked.x = event.clientX;
+        this._clicked.y = event.clientY;
+        this._used = false;
 	}
 }
 

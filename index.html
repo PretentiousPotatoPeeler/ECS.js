@@ -3,13 +3,13 @@
 <script type="text/javascript" src="input.js"></script>
 
 <body style="margin: 0px">
-	<canvas id="myCanvas" >
-	</canvas>
+<canvas id="myCanvas">
+</canvas>
 </body>
 
 <script>
     var CANVAS_WIDTH = 500;
-    var CANVAS_HEIGHT = 500 ;
+    var CANVAS_HEIGHT = 500;
     canvas = document.getElementById("myCanvas").getContext("2d");
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
@@ -20,18 +20,20 @@
     var player = new Entity("player");
     player.addModel(new Squere(player, 10, 10, 20, 20));
     player.addModel(new ImageModel(player, "img/idiot.gif"));
+    player.addController(new Selectable(player))
     player.addController(new ArrowMove(player));
     player.addView(new DisplayImage(player));
+    player.addView(new DisplaySelect(player));
 
     var FPS = 30;
-    setInterval(function() {
-      update();
-      draw();
-    }, 1000/FPS);
+    setInterval(function () {
+        update();
+        draw();
+    }, 1000 / FPS);
 
     function draw() {
         canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        for(var com in player.view){
+        for (var com in player.view) {
             if (player.view[com].hasOwnProperty("draw")) {
                 player.view[com].draw();
             }
@@ -39,11 +41,12 @@
     }
 
     function update() {
-        for(var com in player.controller){
+        for (var com in player.controller) {
             if (player.controller[com].hasOwnProperty("update")) {
                 player.controller[com].update();
             }
         }
+        Mouse._used = true;
     }
 
 </script>

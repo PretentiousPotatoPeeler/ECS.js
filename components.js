@@ -1,14 +1,4 @@
-var loc = {
-    name: "location",
-    x: 0,
-    y: 0,
-    init: function (x, y) {
-        this.x = x;
-        this.y = y;
-        return this;
-    }
-}
-
+// MODEL
 function Squere(p, x, y, width, height) {
     this.name = "squere";
     this.parent = p;
@@ -18,6 +8,14 @@ function Squere(p, x, y, width, height) {
     this.height = height;
 }
 
+function ImageModel(p, path) {
+    this.name = "imageModel";
+    this.imageObj = new Image();
+    this.imageObj.src = path;
+    this.parent = p;
+}
+
+// VIEW
 function DisplaySolid(p) {
     this.name = "displaySolid";
     this.parent = p;
@@ -29,9 +27,34 @@ function DisplaySolid(p) {
     }
 }
 
+function DisplayImage(p){
+    this.name = "displayImage";
+    this.draw = function () {
+        canvas.drawImage(p.model["imageModel"].imageObj,
+            p.model["squere"].x,
+            p.model["squere"].y,
+            p.model["squere"].width,
+            p.model["squere"].height);
+    }
+}
+
+function DisplaySelect(p){
+    this.name = "displaySelect";
+    this.squere = p.model['squere'];
+    this.draw = function () {
+        if(p.controller['selectable'].selected){
+            canvas.beginPath();
+            canvas.lineWidth = "1";
+            canvas.strokeStyle = "red";
+            canvas.rect(this.squere.x, this.squere.y, this.squere.width, this.squere.height);
+            canvas.stroke();
+        }
+    }
+}
+
+// CONTROLLER
 function ArrowMove(p) {
     this.name = "arrowMove";
-    this.category = "controller";
     this.parent = p;
     this.squere = this.parent.model["squere"];
     this.update = function () {
@@ -42,16 +65,20 @@ function ArrowMove(p) {
     }
 }
 
-function ImageModel(p, path) {
-    this.name = "imageModel";
-    this.imageObj = new Image();
-    this.imageObj.src = path;
-    this.parent = p;
-}
-
-function DisplayImage(p){
-    console.log(p.model["imageModel"]);
-    this.draw = function () {
-        canvas.drawImage(p.model["imageModel"].imageObj, p.model["squere"].x, p.model["squere"].y);
+function Selectable(p) {
+    this.name = "selectable";
+    this.selected = false;
+    this.update = function() {
+        if(!this.selected && !Mouse._used &&
+            this.isPressed(p.model['squere'], Mouse._clicked.x, Mouse._clicked.y)) {
+            this.selected = true;
+            Mouse._used = true;
+        } else if (!Mouse._used && this.selected && !this.isPressed(p.model['squere'], Mouse._clicked.x, Mouse._clicked.y)){
+            this.selected = false;
+            Mouse._used = false;
+        }
+    }
+    this.isPressed = function(squere, x, y){
+        return x > squere.x && x < squere.x + squere.width && y > squere.y && y < squere.y + squere.height
     }
 }
