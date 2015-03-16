@@ -8,20 +8,24 @@
 </body>
 
 <script>
-    var CANVAS_WIDTH = 500;
-    var CANVAS_HEIGHT = 500;
+    var CANVAS_WIDTH = 1500;
+    var CANVAS_HEIGHT = 1500;
     canvas = document.getElementById("myCanvas").getContext("2d");
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
 </script>
 
 <script type="text/javascript">
 
+    var entities = [];
+
     var player = new Entity("player");
-    player.addModel(new Square(player, 10, 10, 20, 20, false));
+    // player.addModel(new Square(player, 10, 10, 20, 20, false));
     player.addModel(new ImageModel(player, "img/idiot.gif", true));
-    player.addController(new ArrowMove(player));
-    player.addController(new Selectable(player));
+    player.getModel('imageModel').imageObj.onload = function() {
+        player.addController(new ArrowMove(player));
+        player.addController(new Selectable(player));
+    };
+
+    entities.push(player);
 
     var FPS = 30;
     setInterval(function () {
@@ -31,19 +35,23 @@
 
     function draw() {
         canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        for (var com in player.view) {
-            if (player.view[com].hasOwnProperty("draw")) {
-                player.view[com].draw();
+        entities.forEach(function (elem) {
+            for (var com in elem.view) {
+                if (elem.view[com].hasOwnProperty("draw")) {
+                    elem.view[com].draw();
+                }
             }
-        }
+        });
     }
 
     function update() {
-        for (var com in player.controller) {
-            if (player.controller[com].hasOwnProperty("update")) {
-                player.controller[com].update();
+        entities.forEach(function (elem) {
+            for (var com in elem.controller) {
+                if (elem.controller[com].hasOwnProperty("update")) {
+                    elem.controller[com].update();
+                }
             }
-        }
+        });
         // To prevent the bug in which the player walks away
         // from the clicked position and loses selection.
         Mouse._used = true;

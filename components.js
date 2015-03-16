@@ -12,14 +12,23 @@ function Square(p, x, y, width, height, autoAddView) {
 }
 
 function ImageModel(p, path, autoAddView) {
+    var that = this;
+    this.p = p;
     this.name = "imageModel";
     this.imageObj = new Image();
+
+    this.imageObj.onload = function() {
+        that.width = that.imageObj.naturalWidth;
+        that.height = that.imageObj.naturalHeight;
+
+        if (!that.p.model.hasOwnProperty("square")) {
+            that.p.addModel(new Square(that.p, 0, 0, that.width, that.height));
+        }
+    };
+
     this.imageObj.src = path;
-    if (!p.model.hasOwnProperty("square")) {
-        p.addModel(new Square(p, 0, 0, this.imageObj.naturalWidth, this.imageObj.naturalHeight));
-    }
     if(autoAddView){
-        p.addView(new DisplayImage(p));
+        this.p.addView(new DisplayImage(p));
     }
 }
 
@@ -70,14 +79,15 @@ function DisplaySelect(p) {
 
 // CONTROLLER
 function ArrowMove(p) {
+    var that = this;
     this.name = "arrowMove";
     this.parent = p;
     this.square = this.parent.model["square"];
     this.update = function () {
-        if (Key.isDown(Key.UP)) this.square.y--;
-        if (Key.isDown(Key.LEFT)) this.square.x--;
-        if (Key.isDown(Key.DOWN)) this.square.y++;
-        if (Key.isDown(Key.RIGHT)) this.square.x++;
+        if (Key.isDown(Key.UP)) that.square.y--;
+        if (Key.isDown(Key.LEFT)) that.square.x--;
+        if (Key.isDown(Key.DOWN)) that.square.y++;
+        if (Key.isDown(Key.RIGHT)) that.square.x++;
     }
 }
 
