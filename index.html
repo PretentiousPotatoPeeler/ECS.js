@@ -8,9 +8,14 @@
 </body>
 
 <script>
-    var CANVAS_WIDTH = 1500;
-    var CANVAS_HEIGHT = 1500;
-    canvas = document.getElementById("myCanvas").getContext("2d");
+    var CANVAS_WIDTH = window.innerWidth;
+    var CANVAS_HEIGHT = window.innerHeight;
+    var GRID_SIZE = 32;
+
+    canvasElem = document.getElementById("myCanvas");
+    canvasElem.width = CANVAS_WIDTH;
+    canvasElem.height = CANVAS_HEIGHT;
+    canvas = canvasElem.getContext("2d");
 </script>
 
 <script type="text/javascript">
@@ -18,13 +23,16 @@
     var entities = [];
 
     var player = new Entity("player");
-    // player.addModel(new Square(player, 10, 10, 20, 20, false));
+    player.addModel(new Square(player, 10, 10, -1, -1, false));
     player.addModel(new ImageModel(player, "img/idiot.gif", true));
-    player.getModel('imageModel').imageObj.onload = function() {
-        player.addController(new ArrowMove(player));
-        player.addController(new Selectable(player));
-    };
+    player.addController(new ArrowMove(player));
+    player.addController(new Selectable(player));
 
+    var block = new Entity("stone");
+    block.addModel(new Square(block, 1, 1, -1, -1, false, true));
+    block.addModel(new ImageModel(block, "img/blocks/stone.png", true));
+
+    entities.push(block);
     entities.push(player);
 
     var FPS = 30;
