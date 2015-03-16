@@ -32,8 +32,19 @@
     block.addModel(new Square(block, 1, 1, -1, -1, false, true));
     block.addModel(new ImageModel(block, "img/blocks/stone.png", true));
 
+    var block1 = new Entity("stone");
+    block1.addModel(new Square(block1, 2, 1, -1, -1, false, true));
+    block1.addModel(new ImageModel(block1, "img/blocks/stone.png", true));
+
+    var tree = new Entity("tree");
+    tree.addModel(new Square(tree, 1, 2, -1, -1, false, true));
+    tree.addModel(new ImageModel(tree, "img/blocks/tree.png", true));
+
     entities.push(block);
     entities.push(player);
+    entities.push(block);
+    entities.push(block1);
+    entities.push(tree);
 
     var FPS = 30;
     setInterval(function () {

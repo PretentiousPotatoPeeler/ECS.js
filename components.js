@@ -1,12 +1,17 @@
 // MODEL
-function Square(p, x, y, width, height, autoAddView) {
+function Square(p, x, y, width, height, autoAddView, gridLocation) {
     this.name = "square";
+    this.gridLocation = gridLocation;
     this.parent = p;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    if(autoAddView){
+    if (this.gridLocation) {
+        this.width = GRID_SIZE;
+        this.height = GRID_SIZE;
+    }
+    if (autoAddView) {
         p.addView(new DisplaySolid(p));
     }
 }
@@ -17,17 +22,17 @@ function ImageModel(p, path, autoAddView) {
     this.name = "imageModel";
     this.imageObj = new Image();
 
-    this.imageObj.onload = function() {
+    this.imageObj.onload = function () {
         that.width = that.imageObj.naturalWidth;
         that.height = that.imageObj.naturalHeight;
-
-        if (!that.p.model.hasOwnProperty("square")) {
-            that.p.addModel(new Square(that.p, 0, 0, that.width, that.height));
+        if (that.p.model['square'].width == -1 || that.p.model['square'].height == -1) {
+            that.p.model['square'].width = that.width;
+            that.p.model['square'].height = that.height;
         }
     };
 
     this.imageObj.src = path;
-    if(autoAddView){
+    if (autoAddView) {
         this.p.addView(new DisplayImage(p));
     }
 }
@@ -36,35 +41,43 @@ function ImageModel(p, path, autoAddView) {
 function DisplaySolid(p) {
     this.name = "displaySolid";
     if (!p.model.hasOwnProperty("square")) {
-        p.addModel(new Square(p, 10, 10, 10, 10));
+        p.addModel(new Square(p, 10, 10, 10, 10, false));
     }
     this.color = "#00A";
     this.square = p.model["square"];
     this.draw = function () {
         canvas.fillStyle = this.color;
-        canvas.fillRect(this.square.x, this.square.y, this.square.width, this.square.height);
+        if (this.square.gridLocation) {
+            canvas.fillRect(this.square.x * GRID_SIZE, this.square.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        } else {
+            canvas.fillRect(this.square.x, this.square.y, this.square.width, this.square.height);
+        }
     }
 }
 
 function DisplayImage(p) {
+    var that = this;
     this.name = "displayImage";
-    if (!p.model.hasOwnProperty("imageModel")) {
-        p.addModel(new ImageModel(p, "img/idiot.gif"));
-    }
+    this.p = p;
     this.draw = function () {
-        canvas.drawImage(p.model["imageModel"].imageObj,
-            p.model["square"].x,
-            p.model["square"].y,
-            p.model["square"].width,
-            p.model["square"].height);
+        if (that.p.model['square'].gridLocation) {
+            canvas.drawImage(that.p.model["imageModel"].imageObj,
+                that.p.model["square"].x * GRID_SIZE,
+                that.p.model["square"].y * GRID_SIZE,
+                GRID_SIZE,
+                GRID_SIZE);
+        } else {
+            canvas.drawImage(that.p.model["imageModel"].imageObj,
+                that.p.model["square"].x,
+                that.p.model["square"].y,
+                that.p.model["square"].width,
+                that.p.model["square"].height);
+        }
     }
 }
 
 function DisplaySelect(p) {
     this.name = "displaySelect";
-    if (!p.model.hasOwnProperty("square")) {
-        p.addModel(new Square(p, 10, 10, 10, 10));
-    }
     this.square = p.model['square'];
     this.draw = function () {
         if (p.controller['selectable'].selected) {
@@ -95,7 +108,7 @@ function Selectable(p) {
     this.name = "selectable";
     p.addView(new DisplaySelect(p));
     if (!p.model.hasOwnProperty("square")) {
-        p.addModel(new Square(p, 10, 10, 10, 10));
+        p.addModel(new Square(p, 10, 10, 10, 10, false));
     }
     this.selected = false;
     this.update = function () {
