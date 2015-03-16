@@ -5,7 +5,8 @@ var Entity = function (name) {
     this.controller = {};
 
     this.addModel = function (component) {
-        this.model[component.name] = component;
+        if (!this.model.hasOwnProperty(component.name))
+            this.model[component.name] = component;
     };
 
     this.getModel = function (component) {
@@ -13,7 +14,8 @@ var Entity = function (name) {
     };
 
     this.addView = function (component) {
-        this.view[component.name] = component;
+        if (!this.view.hasOwnProperty(component.name))
+            this.view[component.name] = component;
     };
 
     this.getView = function (component) {
@@ -21,7 +23,8 @@ var Entity = function (name) {
     };
 
     this.addController = function (component) {
-        this.controller[component.name] = component;
+        if (!this.controller.hasOwnProperty(component.name))
+            this.controller[component.name] = component;
     };
 
     this.getController = function (component) {
