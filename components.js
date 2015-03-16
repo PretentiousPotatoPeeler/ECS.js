@@ -1,19 +1,25 @@
 // MODEL
-function Square(p, x, y, width, height) {
+function Square(p, x, y, width, height, autoAddView) {
     this.name = "square";
     this.parent = p;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    if(autoAddView){
+        p.addView(new DisplaySolid(p));
+    }
 }
 
-function ImageModel(p, path) {
+function ImageModel(p, path, autoAddView) {
     this.name = "imageModel";
     this.imageObj = new Image();
     this.imageObj.src = path;
     if (!p.model.hasOwnProperty("square")) {
         p.addModel(new Square(p, 0, 0, this.imageObj.naturalWidth, this.imageObj.naturalHeight));
+    }
+    if(autoAddView){
+        p.addView(new DisplayImage(p));
     }
 }
 
@@ -77,6 +83,7 @@ function ArrowMove(p) {
 
 function Selectable(p) {
     this.name = "selectable";
+    p.addView(new DisplaySelect(p));
     if (!p.model.hasOwnProperty("square")) {
         p.addModel(new Square(p, 10, 10, 10, 10));
     }

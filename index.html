@@ -18,12 +18,10 @@
 <script type="text/javascript">
 
     var player = new Entity("player");
-    player.addModel(new Square(player, 10, 10, 20, 20));
-    player.addModel(new ImageModel(player, "img/idiot.gif"));
-    player.addController(new Selectable(player))
+    player.addModel(new Square(player, 10, 10, 20, 20, false));
+    player.addModel(new ImageModel(player, "img/idiot.gif", true));
     player.addController(new ArrowMove(player));
-    player.addView(new DisplayImage(player));
-    player.addView(new DisplaySelect(player));
+    player.addController(new Selectable(player));
 
     var FPS = 30;
     setInterval(function () {
