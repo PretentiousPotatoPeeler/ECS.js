@@ -56,7 +56,7 @@
         for(var j = 0; j < CANVAS_HEIGHT / 32; j++){
             var grass = new Entity("grass", "background");
             grass.addModel(new Square(grass, i, j, -1, -1, false, true));
-            grass.addModel(new ImageModel(grass, "img/blocks/grass.png", true));
+            grass.addModel(new ImageModel(grass, img_grass, true));
             entities.push(grass);
         }
     }
