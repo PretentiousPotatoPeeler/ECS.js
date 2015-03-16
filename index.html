@@ -33,6 +33,13 @@
 <script type="text/javascript">
 
     var entities = [];
+    var blocks = [];
+    for(var i = 0; i < CANVAS_WIDTH / GRID_SIZE; i++){
+        for(var j = 0; j < CANVAS_HEIGHT / GRID_SIZE; j++){
+            blocks[i] = [];
+            blocks[i][j] = false;
+        }
+    }
 
     var player = new Entity("player", "player");
     player.addModel(new Square(player, 10, 10, -1, -1, false));
@@ -47,10 +54,12 @@
     var block1 = new Entity("stone", "block");
     block1.addModel(new Square(block1, 2, 1, -1, -1, false, true));
     block1.addModel(new ImageModel(block1, img_stone, true));
+    blocks[2][1] = true;
 
     var tree = new Entity("tree", "block");
     tree.addModel(new Square(tree, 1, 2, -1, -1, false, true));
     tree.addModel(new ImageModel(tree, img_tree, true));
+    blocks[1][2] = true;
 
     for (var i = 0; i < CANVAS_WIDTH / 32; i++) {
         for (var j = 0; j < CANVAS_HEIGHT / 32; j++) {
@@ -66,8 +75,6 @@
     entities.push(block);
     entities.push(block1);
     entities.push(tree);
-
-    console.log(entities);
 
     var FPS = 30;
     setInterval(function () {

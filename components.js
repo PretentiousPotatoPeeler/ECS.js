@@ -37,6 +37,27 @@ function ImageModel(p, image, autoAddView) {
     }
 }
 
+function GridImageModel(p, imageCol, autoAddView) {
+    var that = this;
+    this.image = image;
+    that.p = p;
+    that.name = "gridImageModel";
+
+    this.image.onload = function() {
+        that.width = that.image.naturalWidth;
+        that.height = that.image.naturalHeight;
+
+        if (that.p.model['square'].width == -1 || that.p.model['square'].height == -1) {
+            that.p.model['square'].width = that.width;
+            that.p.model['square'].height = that.height;
+        }
+    };
+
+    if (autoAddView) {
+        this.p.addView(new DisplayImage(p));
+    }
+}
+
 // VIEW
 function DisplaySolid(p) {
     this.name = "displaySolid";
