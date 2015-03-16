@@ -19,10 +19,10 @@ function Square(p, x, y, width, height, autoAddView, gridLocation) {
 function ImageModel(p, image, autoAddView) {
     var that = this;
     this.image = image;
-    this.image.onload = function() {
-        that.p = p;
-        that.name = "imageModel";
+    that.p = p;
+    that.name = "imageModel";
 
+    this.image.onload = function() {
         that.width = that.image.naturalWidth;
         that.height = that.image.naturalHeight;
 
@@ -61,13 +61,13 @@ function DisplayImage(p) {
     this.p = p;
     this.draw = function (canvas) {
         if (that.p.model['square'].gridLocation) {
-            canvas.drawImage(that.p.model["imageModel"].imageObj,
+            canvas.drawImage(that.p.model["imageModel"].image,
                 that.p.model["square"].x * GRID_SIZE,
                 that.p.model["square"].y * GRID_SIZE,
                 GRID_SIZE,
                 GRID_SIZE);
         } else {
-            canvas.drawImage(that.p.model["imageModel"].imageObj,
+            canvas.drawImage(that.p.model["imageModel"].image,
                 that.p.model["square"].x,
                 that.p.model["square"].y,
                 that.p.model["square"].width,
