@@ -12,15 +12,19 @@ function ImageModel(p, path) {
     this.name = "imageModel";
     this.imageObj = new Image();
     this.imageObj.src = path;
-    this.parent = p;
+    if(!p.model.hasOwnProperty("square")){
+        p.addModel(new Square(p, 0, 0, this.imageObj.naturalWidth, this.imageObj.naturalHeight));
+    }
 }
 
 // VIEW
 function DisplaySolid(p) {
     this.name = "displaySolid";
-    this.parent = p;
+    if(!p.model.hasOwnProperty("square")){
+        p.addModel(new Square(p, 10, 10, 10, 10));
+    }
     this.color = "#00A";
-    this.square = this.parent.model["square"];
+    this.square = p.model["square"];
     this.draw = function () {
         canvas.fillStyle = this.color;
         canvas.fillRect(this.square.x, this.square.y, this.square.width, this.square.height);
@@ -29,6 +33,9 @@ function DisplaySolid(p) {
 
 function DisplayImage(p) {
     this.name = "displayImage";
+    if(!p.model.hasOwnProperty("imageModel")) {
+        p.addModel(new ImageModel(p, "img/idiot.gif"));
+    }
     this.draw = function () {
         canvas.drawImage(p.model["imageModel"].imageObj,
             p.model["square"].x,
@@ -40,6 +47,9 @@ function DisplayImage(p) {
 
 function DisplaySelect(p) {
     this.name = "displaySelect";
+    if(!p.model.hasOwnProperty("square")){
+        p.addModel(new Square(p, 10, 10, 10, 10));
+    }
     this.square = p.model['square'];
     this.draw = function () {
         if (p.controller['selectable'].selected) {
@@ -67,6 +77,9 @@ function ArrowMove(p) {
 
 function Selectable(p) {
     this.name = "selectable";
+    if(!p.model.hasOwnProperty("square")){
+        p.addModel(new Square(p, 10, 10, 10, 10));
+    }
     this.selected = false;
     this.update = function () {
         if (!this.selected && !Mouse._used &&

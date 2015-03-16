@@ -46,6 +46,8 @@
                 player.controller[com].update();
             }
         }
+        // To prevent the bug in which the player walks away
+        // from the clicked position and loses selection.
         Mouse._used = true;
     }
 
