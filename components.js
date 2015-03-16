@@ -45,7 +45,7 @@ function DisplaySolid(p) {
     }
     this.color = "#00A";
     this.square = p.model["square"];
-    this.draw = function () {
+    this.draw = function (canvas) {
         canvas.fillStyle = this.color;
         if (this.square.gridLocation) {
             canvas.fillRect(this.square.x * GRID_SIZE, this.square.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
@@ -59,7 +59,7 @@ function DisplayImage(p) {
     var that = this;
     this.name = "displayImage";
     this.p = p;
-    this.draw = function () {
+    this.draw = function (canvas) {
         if (that.p.model['square'].gridLocation) {
             canvas.drawImage(that.p.model["imageModel"].imageObj,
                 that.p.model["square"].x * GRID_SIZE,
@@ -79,7 +79,7 @@ function DisplayImage(p) {
 function DisplaySelect(p) {
     this.name = "displaySelect";
     this.square = p.model['square'];
-    this.draw = function () {
+    this.draw = function (canvas) {
         if (p.controller['selectable'].selected) {
             canvas.beginPath();
             canvas.lineWidth = "1";

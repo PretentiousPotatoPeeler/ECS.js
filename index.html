@@ -3,8 +3,9 @@
 <script type="text/javascript" src="input.js"></script>
 
 <body style="margin: 0px">
-<canvas id="myCanvas">
-</canvas>
+<canvas id="background" style="position: absolute; left: 0px"></canvas>
+<canvas id="blocks" style="position: absolute; left: 0px"></canvas>
+<canvas id="players" style="position: absolute; left: 0px"></canvas>
 </body>
 
 <script>
@@ -12,39 +13,60 @@
     var CANVAS_HEIGHT = window.innerHeight;
     var GRID_SIZE = 32;
 
-    canvasElem = document.getElementById("myCanvas");
-    canvasElem.width = CANVAS_WIDTH;
-    canvasElem.height = CANVAS_HEIGHT;
-    canvas = canvasElem.getContext("2d");
+    canvasElem_background = document.getElementById("background");
+    canvasElem_background.width = CANVAS_WIDTH;
+    canvasElem_background.height = CANVAS_HEIGHT;
+    canvas_background = canvasElem_background.getContext("2d");
+
+    canvasElem_blocks = document.getElementById("blocks");
+    canvasElem_blocks.width = CANVAS_WIDTH;
+    canvasElem_blocks.height = CANVAS_HEIGHT;
+    canvas_blocks = canvasElem_blocks.getContext("2d");
+
+    canvasElem_player = document.getElementById("players");
+    canvasElem_player.width = CANVAS_WIDTH;
+    canvasElem_player.height = CANVAS_HEIGHT;
+    canvas_player = canvasElem_player.getContext("2d");
 </script>
 
 <script type="text/javascript">
 
     var entities = [];
 
-    var player = new Entity("player");
+    var player = new Entity("player", "player");
     player.addModel(new Square(player, 10, 10, -1, -1, false));
     player.addModel(new ImageModel(player, "img/idiot.gif", true));
     player.addController(new ArrowMove(player));
     player.addController(new Selectable(player));
 
-    var block = new Entity("stone");
+    var block = new Entity("stone", "block");
     block.addModel(new Square(block, 1, 1, -1, -1, false, true));
     block.addModel(new ImageModel(block, "img/blocks/stone.png", true));
 
-    var block1 = new Entity("stone");
+    var block1 = new Entity("stone", "block");
     block1.addModel(new Square(block1, 2, 1, -1, -1, false, true));
     block1.addModel(new ImageModel(block1, "img/blocks/stone.png", true));
 
-    var tree = new Entity("tree");
+    var tree = new Entity("tree", "block");
     tree.addModel(new Square(tree, 1, 2, -1, -1, false, true));
     tree.addModel(new ImageModel(tree, "img/blocks/tree.png", true));
+
+    for(var i = 0; i < CANVAS_WIDTH / 32; i++){
+        for(var j = 0; j < CANVAS_HEIGHT / 32; j++){
+            var grass = new Entity("grass", "background");
+            grass.addModel(new Square(grass, i, j, -1, -1, false, true));
+            grass.addModel(new ImageModel(grass, "img/blocks/grass.png", true));
+            entities.push(grass);
+        }
+    }
 
     entities.push(block);
     entities.push(player);
     entities.push(block);
     entities.push(block1);
     entities.push(tree);
+
+    console.log(entities);
 
     var FPS = 30;
     setInterval(function () {
@@ -53,11 +75,24 @@
     }, 1000 / FPS);
 
     function draw() {
-        canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas_background.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas_blocks.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas_player.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
         entities.forEach(function (elem) {
             for (var com in elem.view) {
                 if (elem.view[com].hasOwnProperty("draw")) {
-                    elem.view[com].draw();
+                    switch (elem.category) {
+                        case "player":
+                            elem.view[com].draw(canvas_player);
+                            break;
+                        case "block":
+                            elem.view[com].draw(canvas_blocks);
+                            break;
+                        case "background":
+                            elem.view[com].draw(canvas_background);
+                            break;
+                    }
                 }
             }
         });
