@@ -1,3 +1,4 @@
+<script type="text/javascript" src="images.js"></script>
 <script type="text/javascript" src="components.js"></script>
 <script type="text/javascript" src="entity.js"></script>
 <script type="text/javascript" src="input.js"></script>
@@ -24,21 +25,21 @@
 
     var player = new Entity("player");
     player.addModel(new Square(player, 10, 10, -1, -1, false));
-    player.addModel(new ImageModel(player, "img/idiot.gif", true));
+    player.addModel(new ImageModel(player, img_idiot, true));
     player.addController(new ArrowMove(player));
     player.addController(new Selectable(player));
 
     var block = new Entity("stone");
     block.addModel(new Square(block, 1, 1, -1, -1, false, true));
-    block.addModel(new ImageModel(block, "img/blocks/stone.png", true));
+    block.addModel(new ImageModel(block, img_stone, true));
 
     var block1 = new Entity("stone");
     block1.addModel(new Square(block1, 2, 1, -1, -1, false, true));
-    block1.addModel(new ImageModel(block1, "img/blocks/stone.png", true));
+    block1.addModel(new ImageModel(block1, img_stone, true));
 
     var tree = new Entity("tree");
     tree.addModel(new Square(tree, 1, 2, -1, -1, false, true));
-    tree.addModel(new ImageModel(tree, "img/blocks/tree.png", true));
+    tree.addModel(new ImageModel(tree, img_tree, true));
 
     entities.push(block);
     entities.push(player);

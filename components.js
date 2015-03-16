@@ -16,22 +16,22 @@ function Square(p, x, y, width, height, autoAddView, gridLocation) {
     }
 }
 
-function ImageModel(p, path, autoAddView) {
+function ImageModel(p, image, autoAddView) {
     var that = this;
-    this.p = p;
-    this.name = "imageModel";
-    this.imageObj = new Image();
+    this.image = image;
+    this.image.onload = function() {
+        that.p = p;
+        that.name = "imageModel";
 
-    this.imageObj.onload = function () {
-        that.width = that.imageObj.naturalWidth;
-        that.height = that.imageObj.naturalHeight;
+        that.width = that.image.naturalWidth;
+        that.height = that.image.naturalHeight;
+
         if (that.p.model['square'].width == -1 || that.p.model['square'].height == -1) {
             that.p.model['square'].width = that.width;
             that.p.model['square'].height = that.height;
         }
     };
 
-    this.imageObj.src = path;
     if (autoAddView) {
         this.p.addView(new DisplayImage(p));
     }
