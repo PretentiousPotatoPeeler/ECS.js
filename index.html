@@ -18,7 +18,7 @@
 <script type="text/javascript">
 
     var player = new Entity("player");
-    player.addModel(new Squere(player, 10, 10, 20, 20));
+    player.addModel(new Square(player, 10, 10, 20, 20));
     player.addModel(new ImageModel(player, "img/idiot.gif"));
     player.addController(new Selectable(player))
     player.addController(new ArrowMove(player));
