@@ -10,6 +10,7 @@
 <script>
     var CANVAS_WIDTH = 1500;
     var CANVAS_HEIGHT = 1500;
+    var GRID_SIZE = 32;
     canvas = document.getElementById("myCanvas").getContext("2d");
 </script>
 
@@ -18,14 +19,17 @@
     var entities = [];
 
     var player = new Entity("player");
-    // player.addModel(new Square(player, 10, 10, 20, 20, false));
+    player.addModel(new Square(player, 10, 10, -1, -1, false));
     player.addModel(new ImageModel(player, "img/idiot.gif", true));
-    player.getModel('imageModel').imageObj.onload = function() {
-        player.addController(new ArrowMove(player));
-        player.addController(new Selectable(player));
-    };
+    player.addController(new ArrowMove(player));
+    player.addController(new Selectable(player));
+
+    var block = new Entity("stone");
+    block.addModel(new Square(block, 1, 1, -1, -1, false, true));
+    block.addModel(new ImageModel(block, "img/blocks/stone.png", true));
 
     entities.push(player);
+    entities.push(block);
 
     var FPS = 30;
     setInterval(function () {
